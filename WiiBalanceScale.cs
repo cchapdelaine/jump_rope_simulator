@@ -122,6 +122,12 @@ namespace WiiBalanceScale
             float bottomLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
             float bottomRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
 
+            // Keep values on screen above 0.
+            if (topLeft < 0) topLeft = 0;
+            if (topRight < 0) topRight = 0;
+            if (bottomLeft < 0) bottomLeft = 0;
+            if (bottomRight < 0) bottomRight = 0;
+
 
             f.topLeft.Text = string.Format("{0:N2}", topLeft);
             f.topRight.Text = string.Format("{0:N2}", topRight);

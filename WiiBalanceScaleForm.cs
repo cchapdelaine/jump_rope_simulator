@@ -82,15 +82,15 @@ namespace WiiBalanceScale
             this.lblUnit = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // lblWeight
+            // topLeft
             // 
             this.topLeft.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.topLeft.Font = new System.Drawing.Font("Lucida Console", 75F);
             this.topLeft.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.topLeft.Location = new System.Drawing.Point(702, 9);
+            this.topLeft.Location = new System.Drawing.Point(13, 9);
             this.topLeft.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.topLeft.Name = "lblWeight";
+            this.topLeft.Name = "topLeft";
             this.topLeft.Size = new System.Drawing.Size(611, 133);
             this.topLeft.TabIndex = 0;
             this.topLeft.Text = "88.710";
@@ -102,7 +102,7 @@ namespace WiiBalanceScale
             | System.Windows.Forms.AnchorStyles.Right)));
             this.topRight.Font = new System.Drawing.Font("Lucida Console", 75F);
             this.topRight.ImageAlign = System.Drawing.ContentAlignment.TopRight;
-            this.topRight.Location = new System.Drawing.Point(10, 10);
+            this.topRight.Location = new System.Drawing.Point(654, 9);
             this.topRight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.topRight.Name = "topRight";
             this.topRight.Size = new System.Drawing.Size(659, 133);
