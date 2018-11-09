@@ -42,10 +42,6 @@ namespace WiiBalanceScale
         static ConnectionManager cm = null;
         static Timer BoardTimer = null;
         static float ZeroedWeight = 0;
-        static float[] History = new float[100];
-        static int HistoryBest = 1, HistoryCursor = -1;
-        static string StarFull = "", StarEmpty = "";
-        static bool UsePounds = false;
 
         static void Main(string[] args)
         {
@@ -53,13 +49,7 @@ namespace WiiBalanceScale
             Application.SetCompatibleTextRenderingDefault(false);
 
             f = new WiiBalanceScaleForm();
-            StarFull = f.lblQuality.Text.Substring(0, 1);
-            StarEmpty = f.lblQuality.Text.Substring(4, 1);
-            f.lblWeight.Text = "";
-            f.lblQuality.Text = "";
-            f.lblUnit.Text = "";
-            f.btnReset.Click += new System.EventHandler(btnReset_Click);
-            f.lblUnit.Click += new System.EventHandler(lblUnit_Click);
+            f.topLeft.Text = "";
 
             ConnectBalanceBoard(false);
             if (f == null) return; //connecting required application restart, end this process here
@@ -93,9 +83,7 @@ namespace WiiBalanceScale
             }
             if (cm != null) { cm.Cancel(); cm = null; }
 
-            f.lblWeight.Text = "...";
-            f.lblQuality.Text = "";
-            f.lblUnit.Text = "";
+            f.topLeft.Text = "...";
             f.Refresh();
 
             ZeroedWeight = 0.0f;
@@ -107,11 +95,6 @@ namespace WiiBalanceScale
                 bb.GetStatus();
             }
             ZeroedWeight /= (float)InitWeightCount;
-
-            //start with half full quality bar
-            HistoryCursor = HistoryBest = History.Length / 2;
-            for (int i = 0; i < History.Length; i++)
-                History[i] = (i > HistoryCursor ? float.MinValue : ZeroedWeight);
         }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
@@ -120,8 +103,7 @@ namespace WiiBalanceScale
             {
                 if (cm.IsRunning())
                 {
-                    f.lblWeight.Text = "WAIT...";
-                    f.lblQuality.Text = (f.lblQuality.Text.Length >= 5 ? "" : f.lblQuality.Text) + "6";
+                    f.topLeft.Text = "WAIT...";
                     return;
                 }
                 if (cm.HadError())
@@ -134,54 +116,17 @@ namespace WiiBalanceScale
                 ConnectBalanceBoard(true);
                 return;
             }
+            //TopLeft = wiiDevice.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft,
+            float topLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
+            float topRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
+            float bottomLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
+            float bottomRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
 
-            float kg = bb.WiimoteState.BalanceBoardState.WeightKg, HistorySum = 0.0f, MaxHist = kg, MinHist = kg, MaxDiff = 0.0f;
-            if (kg < -200)
-            {
-                ConnectBalanceBoard(false);
-                return;
-            }
 
-            HistoryCursor++;
-            History[HistoryCursor % History.Length] = kg;
-            for (HistoryBest = 0; HistoryBest < History.Length; HistoryBest++)
-            {
-                float HistoryEntry = History[(HistoryCursor + History.Length - HistoryBest) % History.Length];
-                if (System.Math.Abs(MaxHist - HistoryEntry) > 1.0f) break;
-                if (System.Math.Abs(MinHist - HistoryEntry) > 1.0f) break;
-                if (HistoryEntry > MaxHist) MaxHist = HistoryEntry;
-                if (HistoryEntry > MinHist) MinHist = HistoryEntry;
-                float Diff = System.Math.Max(System.Math.Abs(HistoryEntry - kg), System.Math.Abs((HistorySum + HistoryEntry) / (HistoryBest + 1) - kg));
-                if (Diff > MaxDiff) MaxDiff = Diff;
-                if (Diff > 1.0f) break;
-                HistorySum += HistoryEntry;
-            }
-
-            kg = HistorySum / HistoryBest - ZeroedWeight;
-
-            float accuracy = 1.0f / HistoryBest;
-            kg = (float)System.Math.Floor(kg / accuracy + 0.5f) * accuracy;
-
-            if (UsePounds) kg *= 2.20462262f;
-            f.lblWeight.Text = (kg >= 0.0f && kg < 10.0f ? " " : "") + kg.ToString("0.00") + (kg <= -10.0f ? "" : "0");
-
-            f.lblQuality.Text = "";
-            for (int i = 0; i < 5; i++)
-                f.lblQuality.Text += (i < ((HistoryBest + 5) / (History.Length / 5)) ? StarFull : StarEmpty);
-            f.lblUnit.Text = (UsePounds ? "lbs" : "kg");
-        }
-
-        static void btnReset_Click(object sender, System.EventArgs e)
-        {
-            float HistorySum = 0.0f;
-            for (int i = 0; i < HistoryBest; i++)
-                HistorySum += History[(HistoryCursor + History.Length - i) % History.Length];
-            ZeroedWeight = HistorySum / HistoryBest;
-        }
-
-        static void lblUnit_Click(object sender, System.EventArgs e)
-        {
-            UsePounds = !UsePounds;
+            f.topLeft.Text = string.Format("{0:N2}", topLeft);
+            f.topRight.Text = string.Format("{0:N2}", topRight);
+            f.bottomLeft.Text = string.Format("{0:N2}", bottomLeft);
+            f.bottomRight.Text = string.Format("{0:N2}", bottomRight);
         }
     }
 }
