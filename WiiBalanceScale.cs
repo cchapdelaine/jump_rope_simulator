@@ -44,6 +44,7 @@ namespace WiiBalanceScale
         static Timer BoardTimer = null;
         static float[] History = new float[100];
         static int HistoryBest = 1, HistoryCursor = -1;
+        static float threshold;
 
         static void Main(string[] args)
         {
@@ -89,7 +90,7 @@ namespace WiiBalanceScale
             f.Refresh();
         }
 
-        static float getWeight()
+        static void getWeight()
         {
             float kg = bb.WiimoteState.BalanceBoardState.WeightKg, HistorySum = 0.0f, MaxHist = kg, MinHist = kg, MaxDiff = 0.0f;
             HistoryCursor++;
@@ -112,7 +113,7 @@ namespace WiiBalanceScale
             float accuracy = 1.0f / HistoryBest;
             kg = (float)System.Math.Floor(kg / accuracy + 0.5f) * accuracy;
 
-            return kg;
+            threshold = kg;
 
 
         }
@@ -160,7 +161,6 @@ namespace WiiBalanceScale
             float topWeight = topLeft + topRight;
             float bottomWeight = bottomLeft + bottomRight;
             float difference = topWeight - bottomWeight;
-            float threshold = 25;
 
             if (difference > threshold)
             {
