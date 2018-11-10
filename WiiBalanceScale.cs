@@ -24,6 +24,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 **********************************************************************************/
 
+using System;
 using System.Windows.Forms;
 using WiimoteLib;
 
@@ -41,6 +42,7 @@ namespace WiiBalanceScale
         static Wiimote bb = null;
         static ConnectionManager cm = null;
         static Timer BoardTimer = null;
+
 
         static void Main(string[] args)
         {
@@ -88,6 +90,8 @@ namespace WiiBalanceScale
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
         {
+            int jumpCounter = Int32.Parse(f.jumpCounter.Text);
+
             if (cm != null)
             {
                 if (cm.IsRunning())
@@ -117,6 +121,17 @@ namespace WiiBalanceScale
             if (bottomLeft < 0) bottomLeft = 0;
             if (bottomRight < 0) bottomRight = 0;
 
+
+            float topWeight = topLeft + topRight;
+            float bottomWeight = bottomLeft + bottomRight;
+            float difference = topWeight - bottomWeight;
+            float threshold = 0;
+
+            if(difference > threshold)
+            {
+                jumpCounter++;
+                f.jumpCounter.Text = jumpCounter.ToString();
+            }
 
             f.topLeft.Text = string.Format("{0:N2}", topLeft);
             f.topRight.Text = string.Format("{0:N2}", topRight);
