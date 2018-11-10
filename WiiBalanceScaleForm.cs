@@ -86,12 +86,16 @@ namespace WiiBalanceScale
             | System.Windows.Forms.AnchorStyles.Right)));
             this.topLeft.Font = new System.Drawing.Font("Lucida Console", 25F);
             this.topLeft.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
+<<<<<<< HEAD
             this.topLeft.Location = new System.Drawing.Point(64, 36);
+=======
+            this.topLeft.Location = new System.Drawing.Point(73, 29);
+>>>>>>> 6449614ceebef7361d14e9856fddbf65f5affc89
             this.topLeft.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.topLeft.Name = "topLeft";
-            this.topLeft.Size = new System.Drawing.Size(568, 132);
+            this.topLeft.Size = new System.Drawing.Size(505, 106);
             this.topLeft.TabIndex = 0;
-            this.topLeft.Text = "88.710";
+            this.topLeft.Text = "1";
             this.topLeft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // topRight
@@ -100,12 +104,16 @@ namespace WiiBalanceScale
             | System.Windows.Forms.AnchorStyles.Right)));
             this.topRight.Font = new System.Drawing.Font("Lucida Console", 25F);
             this.topRight.ImageAlign = System.Drawing.ContentAlignment.TopRight;
+<<<<<<< HEAD
             this.topRight.Location = new System.Drawing.Point(796, 36);
+=======
+            this.topRight.Location = new System.Drawing.Point(728, 43);
+>>>>>>> 6449614ceebef7361d14e9856fddbf65f5affc89
             this.topRight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.topRight.Name = "topRight";
-            this.topRight.Size = new System.Drawing.Size(458, 141);
+            this.topRight.Size = new System.Drawing.Size(407, 113);
             this.topRight.TabIndex = 0;
-            this.topRight.Text = "88.710";
+            this.topRight.Text = "2";
             this.topRight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // bottomLeft
@@ -114,12 +122,16 @@ namespace WiiBalanceScale
             | System.Windows.Forms.AnchorStyles.Right)));
             this.bottomLeft.Font = new System.Drawing.Font("Lucida Console", 25F);
             this.bottomLeft.ImageAlign = System.Drawing.ContentAlignment.BottomLeft;
+<<<<<<< HEAD
             this.bottomLeft.Location = new System.Drawing.Point(142, 240);
+=======
+            this.bottomLeft.Location = new System.Drawing.Point(134, 149);
+>>>>>>> 6449614ceebef7361d14e9856fddbf65f5affc89
             this.bottomLeft.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.bottomLeft.Name = "bottomLeft";
-            this.bottomLeft.Size = new System.Drawing.Size(430, 132);
+            this.bottomLeft.Size = new System.Drawing.Size(382, 106);
             this.bottomLeft.TabIndex = 0;
-            this.bottomLeft.Text = "88.710";
+            this.bottomLeft.Text = "3";
             this.bottomLeft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // bottomRight
@@ -128,21 +140,25 @@ namespace WiiBalanceScale
             | System.Windows.Forms.AnchorStyles.Right)));
             this.bottomRight.Font = new System.Drawing.Font("Lucida Console", 25F);
             this.bottomRight.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
+<<<<<<< HEAD
             this.bottomRight.Location = new System.Drawing.Point(823, 240);
+=======
+            this.bottomRight.Location = new System.Drawing.Point(780, 200);
+>>>>>>> 6449614ceebef7361d14e9856fddbf65f5affc89
             this.bottomRight.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.bottomRight.Name = "bottomRight";
-            this.bottomRight.Size = new System.Drawing.Size(345, 69);
+            this.bottomRight.Size = new System.Drawing.Size(307, 55);
             this.bottomRight.TabIndex = 0;
-            this.bottomRight.Text = "88.71";
+            this.bottomRight.Text = "4";
             this.bottomRight.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // jumpCounter
             // 
             this.jumpCounter.Font = new System.Drawing.Font("Lucida Console", 25F);
             this.jumpCounter.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.jumpCounter.Location = new System.Drawing.Point(636, 380);
+            this.jumpCounter.Location = new System.Drawing.Point(565, 304);
             this.jumpCounter.Name = "jumpCounter";
-            this.jumpCounter.Size = new System.Drawing.Size(112, 125);
+            this.jumpCounter.Size = new System.Drawing.Size(100, 100);
             this.jumpCounter.TabIndex = 1;
             this.jumpCounter.Text = "0";
             // 
@@ -151,19 +167,23 @@ namespace WiiBalanceScale
             this.connectingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.connectingLabel.Font = new System.Drawing.Font("Lucida Console", 80F);
+<<<<<<< HEAD
             this.connectingLabel.Location = new System.Drawing.Point(46, 54);
+=======
+            this.connectingLabel.Location = new System.Drawing.Point(47, 29);
+>>>>>>> 6449614ceebef7361d14e9856fddbf65f5affc89
             this.connectingLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingLabel.Name = "connectingLabel";
-            this.connectingLabel.Size = new System.Drawing.Size(1310, 508);
+            this.connectingLabel.Size = new System.Drawing.Size(1164, 406);
             this.connectingLabel.TabIndex = 0;
             this.connectingLabel.Text = "Connecting to Wiiboard...";
             this.connectingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // WiiBalanceScaleForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1403, 642);
+            this.ClientSize = new System.Drawing.Size(1247, 514);
             this.Controls.Add(this.connectingLabel);
             this.Controls.Add(this.topLeft);
             this.Controls.Add(this.topRight);
@@ -171,7 +191,7 @@ namespace WiiBalanceScale
             this.Controls.Add(this.bottomRight);
             this.Controls.Add(this.jumpCounter);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "WiiBalanceScaleForm";
             this.Text = "Wii Balance Scale";
