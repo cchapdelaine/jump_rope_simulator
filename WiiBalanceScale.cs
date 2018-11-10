@@ -45,6 +45,7 @@ namespace WiiBalanceScale
         static float[] History = new float[100];
         static int HistoryBest = 1, HistoryCursor = -1;
         static float threshold;
+        static bool wentUp;
 
         static void Main(string[] args)
         {
@@ -92,7 +93,12 @@ namespace WiiBalanceScale
 
         static void getWeight()
         {
-            float kg = bb.WiimoteState.BalanceBoardState.WeightKg, HistorySum = 0.0f, MaxHist = kg, MinHist = kg, MaxDiff = 0.0f;
+            float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
+            float HistorySum = 0.0f;
+            float MaxHist = kg;
+            float MinHist = kg;
+            float MaxDiff = 0.0f;
+
             HistoryCursor++;
             History[HistoryCursor % History.Length] = kg;
             for (HistoryBest = 0; HistoryBest < History.Length; HistoryBest++)
@@ -114,21 +120,18 @@ namespace WiiBalanceScale
             kg = (float)System.Math.Floor(kg / accuracy + 0.5f) * accuracy;
 
             threshold = kg;
-
-
+            f.threshold.Text = threshold.ToString();
         }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
         {
             int jumpCounter = Int32.Parse(f.jumpCounter.Text);
-            bool wentUp = false;
 
             if (cm != null)
             {
                 if (cm.IsRunning())
                 {
                     f.connectingLabel.Visible = true;
-                    // f.topLeft.Text = "WAIT...";
 
                     return;
                 }
@@ -143,6 +146,8 @@ namespace WiiBalanceScale
                 return;
             }
 
+            getWeight();
+
             f.connectingLabel.Visible = false; // Don't display connecting label.
 
             //TopLeft = wiiDevice.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft,
@@ -151,7 +156,7 @@ namespace WiiBalanceScale
             float bottomLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
             float bottomRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
 
-            // Keep values on screen above 0.
+            // Keep values above 0.
             if (topLeft < 0) topLeft = 0;
             if (topRight < 0) topRight = 0;
             if (bottomLeft < 0) bottomLeft = 0;
@@ -162,7 +167,7 @@ namespace WiiBalanceScale
             float bottomWeight = bottomLeft + bottomRight;
             float difference = topWeight - bottomWeight;
 
-            if (difference > threshold)
+            if (difference >= threshold)
             {
                 wentUp = true;
             }
