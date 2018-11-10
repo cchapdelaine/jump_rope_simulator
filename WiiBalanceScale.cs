@@ -92,7 +92,8 @@ namespace WiiBalanceScale
             {
                 if (cm.IsRunning())
                 {
-                    f.topLeft.Text = "WAIT...";
+                    f.connectingLabel.Visible = true;
+                    // f.topLeft.Text = "WAIT...";
                     return;
                 }
                 if (cm.HadError())
@@ -105,6 +106,9 @@ namespace WiiBalanceScale
                 ConnectBalanceBoard(true);
                 return;
             }
+
+            f.connectingLabel.Visible = false; // Don't display connecting label.
+
             //TopLeft = wiiDevice.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft,
             float topLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
             float topRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
