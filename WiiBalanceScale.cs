@@ -42,9 +42,8 @@ namespace WiiBalanceScale
         static Wiimote bb = null;
         static ConnectionManager cm = null;
         static Timer BoardTimer = null;
-        static bool wentUp = false;
-        static float threshold = 200;
-
+        static float[] History = new float[100];
+        static int HistoryBest = 1, HistoryCursor = -1;
 
         static void Main(string[] args)
         {
@@ -90,9 +89,38 @@ namespace WiiBalanceScale
             f.Refresh();
         }
 
+        static float getWeight()
+        {
+            float kg = bb.WiimoteState.BalanceBoardState.WeightKg, HistorySum = 0.0f, MaxHist = kg, MinHist = kg, MaxDiff = 0.0f;
+            HistoryCursor++;
+            History[HistoryCursor % History.Length] = kg;
+            for (HistoryBest = 0; HistoryBest < History.Length; HistoryBest++)
+            {
+                float HistoryEntry = History[(HistoryCursor + History.Length - HistoryBest) % History.Length];
+                if (System.Math.Abs(MaxHist - HistoryEntry) > 1.0f) break;
+                if (System.Math.Abs(MinHist - HistoryEntry) > 1.0f) break;
+                if (HistoryEntry > MaxHist) MaxHist = HistoryEntry;
+                if (HistoryEntry > MinHist) MinHist = HistoryEntry;
+                float Diff = System.Math.Max(System.Math.Abs(HistoryEntry - kg), System.Math.Abs((HistorySum + HistoryEntry) / (HistoryBest + 1) - kg));
+                if (Diff > MaxDiff) MaxDiff = Diff;
+                if (Diff > 1.0f) break;
+                HistorySum += HistoryEntry;
+            }
+
+            kg = HistorySum / HistoryBest;
+
+            float accuracy = 1.0f / HistoryBest;
+            kg = (float)System.Math.Floor(kg / accuracy + 0.5f) * accuracy;
+
+            return kg;
+
+
+        }
+
         static void BoardTimer_Tick(object sender, System.EventArgs e)
         {
             int jumpCounter = Int32.Parse(f.jumpCounter.Text);
+            bool wentUp = false;
 
             if (cm != null)
             {
@@ -100,6 +128,7 @@ namespace WiiBalanceScale
                 {
                     f.connectingLabel.Visible = true;
                     // f.topLeft.Text = "WAIT...";
+
                     return;
                 }
                 if (cm.HadError())
@@ -131,13 +160,14 @@ namespace WiiBalanceScale
             float topWeight = topLeft + topRight;
             float bottomWeight = bottomLeft + bottomRight;
             float difference = topWeight - bottomWeight;
-            
-            if(difference > threshold)
+            float threshold = 25;
+
+            if (difference > threshold)
             {
                 wentUp = true;
             }
 
-            if(difference < threshold && wentUp == true)
+            if (difference <= threshold && wentUp == true)
             {
                 jumpCounter++;
                 f.jumpCounter.Text = jumpCounter.ToString();
