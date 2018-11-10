@@ -129,12 +129,13 @@ namespace WiiBalanceScale
             float topWeight = topLeft + topRight;
             float bottomWeight = bottomLeft + bottomRight;
             float difference = topWeight - bottomWeight;
-            float threshold = 0;
+            float threshold = 25;
 
             if(difference > threshold)
             {
                 jumpCounter++;
                 f.jumpCounter.Text = jumpCounter.ToString();
+                return;
             }
 
             f.topLeft.Text = string.Format("{0:N2}", topLeft);
