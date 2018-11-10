@@ -42,6 +42,8 @@ namespace WiiBalanceScale
         static Wiimote bb = null;
         static ConnectionManager cm = null;
         static Timer BoardTimer = null;
+        static bool wentUp = false;
+        static float threshold = 200;
 
 
         static void Main(string[] args)
@@ -91,7 +93,6 @@ namespace WiiBalanceScale
         static void BoardTimer_Tick(object sender, System.EventArgs e)
         {
             int jumpCounter = Int32.Parse(f.jumpCounter.Text);
-            bool wentUp = false;
 
             if (cm != null)
             {
@@ -130,14 +131,13 @@ namespace WiiBalanceScale
             float topWeight = topLeft + topRight;
             float bottomWeight = bottomLeft + bottomRight;
             float difference = topWeight - bottomWeight;
-            float threshold = 25;
             
             if(difference > threshold)
             {
                 wentUp = true;
             }
 
-            if(difference <= threshold && wentUp == true)
+            if(difference < threshold && wentUp == true)
             {
                 jumpCounter++;
                 f.jumpCounter.Text = jumpCounter.ToString();
