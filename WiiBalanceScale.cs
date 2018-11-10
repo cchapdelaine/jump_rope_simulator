@@ -41,7 +41,6 @@ namespace WiiBalanceScale
         static Wiimote bb = null;
         static ConnectionManager cm = null;
         static Timer BoardTimer = null;
-        static float ZeroedWeight = 0;
 
         static void Main(string[] args)
         {
@@ -85,16 +84,6 @@ namespace WiiBalanceScale
 
             f.topLeft.Text = "...";
             f.Refresh();
-
-            ZeroedWeight = 0.0f;
-            int InitWeightCount = 0;
-            for (int CountMax = (WasJustConnected ? 100 : 50); InitWeightCount < CountMax || bb.WiimoteState.BalanceBoardState.WeightKg == 0.0f; InitWeightCount++)
-            {
-                if (bb.WiimoteState.BalanceBoardState.WeightKg < -200) break;
-                ZeroedWeight += bb.WiimoteState.BalanceBoardState.WeightKg;
-                bb.GetStatus();
-            }
-            ZeroedWeight /= (float)InitWeightCount;
         }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
