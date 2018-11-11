@@ -102,9 +102,9 @@ namespace WiiBalanceScale
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jumpMan.Font = new System.Drawing.Font("Wingdings", 150F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(127)));
             this.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(82)))), ((int)(((byte)(255)))));
-            this.jumpMan.Location = new System.Drawing.Point(350, 250);
-            this.jumpMan.Name = "jumpMan";
             this.jumpMan.Size = new System.Drawing.Size(386, 211);
+            this.jumpMan.Location = new System.Drawing.Point(300, 250);
+            this.jumpMan.Name = "jumpMan";
             this.jumpMan.TabIndex = 8;
             this.jumpMan.Text = "n";
             this.jumpMan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

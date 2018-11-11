@@ -123,13 +123,15 @@ namespace WiiBalanceScale
             System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 250);
             System.Drawing.Point loc = f.jumpMan.Location;
 
+            int center = (f.Width / 2) - (f.jumpMan.Size.Width / 2);
+
             if (wentUp && loc.Y >= topThreshold.Y)
             {
-                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y - 5);
+                f.jumpMan.Location = new System.Drawing.Point(center, f.jumpMan.Location.Y - 5);
             }
             else if (!wentUp && loc.Y <= bottomThreshold.Y)
             {
-                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y + 10);
+                f.jumpMan.Location = new System.Drawing.Point(center, f.jumpMan.Location.Y + 10);
             }
 
             getWeight();
