@@ -43,7 +43,8 @@ namespace WiiBalanceScale
         static ConnectionManager cm = null;
         static Timer BoardTimer = null;
         static float[] History = new float[100];
-        static int HistoryBest = 1, HistoryCursor = -1;
+        static int HistoryBest = 1;
+        static int HistoryCursor = -1;
         static float threshold;
         static bool wentUp;
 
@@ -92,7 +93,7 @@ namespace WiiBalanceScale
         static void getWeight()
         {
             float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
-            threshold = kg + 100;
+            threshold = (kg * 2.0F) + 5;  // Proportional to user's weight.
         }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
@@ -118,17 +119,17 @@ namespace WiiBalanceScale
                 return;
             }
 
-            System.Drawing.Point topThreshold = new System.Drawing.Point(350, 350);
-            System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 150);
+            System.Drawing.Point topThreshold = new System.Drawing.Point(350, 200);
+            System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 250);
             System.Drawing.Point loc = f.jumpMan.Location;
 
-            if (wentUp && loc.Y < topThreshold.Y)
+            if (wentUp && loc.Y >= topThreshold.Y)
             {
                 f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y - 5);
             }
-            else if (!wentUp && loc.Y > bottomThreshold.Y) 
+            else if (!wentUp && loc.Y <= bottomThreshold.Y)
             {
-                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y + 5);
+                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y + 10);
             }
 
             getWeight();
