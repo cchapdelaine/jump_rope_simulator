@@ -94,31 +94,6 @@ namespace WiiBalanceScale
         static void getWeight()
         {
             float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
-            float HistorySum = 0.0f;
-            float MaxHist = kg;
-            float MinHist = kg;
-            float MaxDiff = 0.0f;
-
-            HistoryCursor++;
-            History[HistoryCursor % History.Length] = kg;
-            for (HistoryBest = 0; HistoryBest < History.Length; HistoryBest++)
-            {
-                float HistoryEntry = History[(HistoryCursor + History.Length - HistoryBest) % History.Length];
-                if (System.Math.Abs(MaxHist - HistoryEntry) > 1.0f) break;
-                if (System.Math.Abs(MinHist - HistoryEntry) > 1.0f) break;
-                if (HistoryEntry > MaxHist) MaxHist = HistoryEntry;
-                if (HistoryEntry > MinHist) MinHist = HistoryEntry;
-                float Diff = System.Math.Max(System.Math.Abs(HistoryEntry - kg), System.Math.Abs((HistorySum + HistoryEntry) / (HistoryBest + 1) - kg));
-                if (Diff > MaxDiff) MaxDiff = Diff;
-                if (Diff > 1.0f) break;
-                HistorySum += HistoryEntry;
-            }
-
-            kg = HistorySum / HistoryBest;
-
-            float accuracy = 1.0f / HistoryBest;
-            kg = bb.WiimoteState.BalanceBoardState.WeightKg;
-
             threshold = kg;
             f.threshold.Text = threshold.ToString();
         }
