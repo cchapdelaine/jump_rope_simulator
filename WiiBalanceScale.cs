@@ -120,10 +120,11 @@ namespace WiiBalanceScale
 
             if (wentUp)
             {
-                f.jumpMan.Location.Offset(1, 1);
-            } else
+                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y + 1);
+            }
+            else 
             {
-                f.jumpMan.Location.Offset(-1, -1);
+                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y - 1);
             }
 
             getWeight();
