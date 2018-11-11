@@ -39,7 +39,7 @@ namespace WiiBalanceScale
         }
 
         internal Label jumpCounter;
-        internal Graphics jumpMan;
+        internal Label jumpMan;
         internal Label connectingLabel;  // Connecting to wiiboard.
 
         /// <summary>
@@ -70,13 +70,14 @@ namespace WiiBalanceScale
         {
             this.jumpCounter = new System.Windows.Forms.Label();
             this.connectingLabel = new System.Windows.Forms.Label();
+            this.jumpMan = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // jumpCounter
             // 
             this.jumpCounter.Font = new System.Drawing.Font("Lucida Console", 25F);
             this.jumpCounter.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.jumpCounter.Location = new System.Drawing.Point(565, 304);
+            this.jumpCounter.Location = new System.Drawing.Point(12, 26);
             this.jumpCounter.Name = "jumpCounter";
             this.jumpCounter.Size = new System.Drawing.Size(100, 100);
             this.jumpCounter.TabIndex = 1;
@@ -87,13 +88,26 @@ namespace WiiBalanceScale
             this.connectingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.connectingLabel.Font = new System.Drawing.Font("Lucida Console", 80F);
-            this.connectingLabel.Location = new System.Drawing.Point(38, 58);
+            this.connectingLabel.Location = new System.Drawing.Point(-4, -5);
             this.connectingLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingLabel.Name = "connectingLabel";
-            this.connectingLabel.Size = new System.Drawing.Size(1164, 406);
+            this.connectingLabel.Size = new System.Drawing.Size(1238, 510);
             this.connectingLabel.TabIndex = 0;
             this.connectingLabel.Text = "Connecting to Wiiboard...";
             this.connectingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // jumpMan
+            // 
+            this.jumpMan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.jumpMan.Font = new System.Drawing.Font("Wingdings", 150F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(127)));
+            this.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(82)))), ((int)(((byte)(255)))));
+            this.jumpMan.Location = new System.Drawing.Point(440, 232);
+            this.jumpMan.Name = "jumpMan";
+            this.jumpMan.Size = new System.Drawing.Size(343, 169);
+            this.jumpMan.TabIndex = 8;
+            this.jumpMan.Text = "n";
+            this.jumpMan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // WiiBalanceScaleForm
             // 
@@ -102,6 +116,7 @@ namespace WiiBalanceScale
             this.ClientSize = new System.Drawing.Size(1247, 514);
             this.Controls.Add(this.connectingLabel);
             this.Controls.Add(this.jumpCounter);
+            this.Controls.Add(this.jumpMan);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
