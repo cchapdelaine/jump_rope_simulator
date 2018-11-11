@@ -39,6 +39,7 @@ namespace WiiBalanceScale
         }
 
         internal Label jumpCounter;
+        internal Label jumpCounterLabel;
         internal Label jumpMan;
         internal Label connectingLabel;  // Connecting to wiiboard.
 
@@ -70,6 +71,7 @@ namespace WiiBalanceScale
         {
             this.jumpCounter = new System.Windows.Forms.Label();
             this.connectingLabel = new System.Windows.Forms.Label();
+            this.jumpCounterLabel = new System.Windows.Forms.Label();
             this.jumpMan = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -77,9 +79,9 @@ namespace WiiBalanceScale
             // 
             this.jumpCounter.Font = new System.Drawing.Font("Lucida Console", 25F);
             this.jumpCounter.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.jumpCounter.Location = new System.Drawing.Point(14, 32);
+            this.jumpCounter.Location = new System.Drawing.Point(12, 69);
             this.jumpCounter.Name = "jumpCounter";
-            this.jumpCounter.Size = new System.Drawing.Size(112, 125);
+            this.jumpCounter.Size = new System.Drawing.Size(100, 100);
             this.jumpCounter.TabIndex = 1;
             this.jumpCounter.Text = "0";
             // 
@@ -87,14 +89,24 @@ namespace WiiBalanceScale
             // 
             this.connectingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.connectingLabel.Font = new System.Drawing.Font("Lucida Console", 80F);
-            this.connectingLabel.Location = new System.Drawing.Point(-4, -6);
+            this.connectingLabel.Font = new System.Drawing.Font("Lucida Console", 50F);
+            this.connectingLabel.Location = new System.Drawing.Point(-2, 0);
             this.connectingLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingLabel.Name = "connectingLabel";
-            this.connectingLabel.Size = new System.Drawing.Size(1393, 638);
+            this.connectingLabel.Size = new System.Drawing.Size(1253, 510);
             this.connectingLabel.TabIndex = 0;
-            this.connectingLabel.Text = "Connecting to Wiiboard...";
+            this.connectingLabel.Text = "Connecting to Wiiboard...\n(press sync button)";
             this.connectingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // jumpCounterLabel
+            // 
+            this.jumpCounterLabel.Font = new System.Drawing.Font("Lucida Console", 25F);
+            this.jumpCounterLabel.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.jumpCounterLabel.Location = new System.Drawing.Point(-9, 0);
+            this.jumpCounterLabel.Name = "jumpCounterLabel";
+            this.jumpCounterLabel.Size = new System.Drawing.Size(422, 125);
+            this.jumpCounterLabel.TabIndex = 1;
+            this.jumpCounterLabel.Text = "Jump Counter";
             // 
             // jumpMan
             // 
@@ -111,14 +123,15 @@ namespace WiiBalanceScale
             // 
             // WiiBalanceScaleForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1403, 642);
+            this.ClientSize = new System.Drawing.Size(1247, 514);
             this.Controls.Add(this.connectingLabel);
             this.Controls.Add(this.jumpCounter);
+            this.Controls.Add(this.jumpCounterLabel);
             this.Controls.Add(this.jumpMan);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.Name = "WiiBalanceScaleForm";
             this.Text = "Wii Balance Scale";
