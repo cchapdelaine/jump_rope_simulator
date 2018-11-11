@@ -43,7 +43,6 @@ namespace WiiBalanceScale
         internal Label jumpMan;
         internal Label connectingLabel;  // Connecting to wiiboard.
 
-        internal String ArialFont = "Arial";
 
         /// <summary>
         /// Required designer variable.
@@ -79,7 +78,7 @@ namespace WiiBalanceScale
             // 
             // jumpCounter
             // 
-            this.jumpCounter.Font = new System.Drawing.Font(ArialFont, 25F);
+            this.jumpCounter.Font = new System.Drawing.Font("Arial", 25F);
             this.jumpCounter.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.jumpCounter.Location = new System.Drawing.Point(12, 69);
             this.jumpCounter.Name = "jumpCounter";
@@ -91,7 +90,7 @@ namespace WiiBalanceScale
             // 
             this.connectingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.connectingLabel.Font = new System.Drawing.Font(ArialFont, 50F);
+            this.connectingLabel.Font = new System.Drawing.Font("Arial", 50F);
             this.connectingLabel.Location = new System.Drawing.Point(-2, 0);
             this.connectingLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingLabel.Name = "connectingLabel";
@@ -102,7 +101,7 @@ namespace WiiBalanceScale
             // 
             // jumpCounterLabel
             // 
-            this.jumpCounterLabel.Font = new System.Drawing.Font(ArialFont, 25F);
+            this.jumpCounterLabel.Font = new System.Drawing.Font("Arial", 25F);
             this.jumpCounterLabel.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.jumpCounterLabel.Location = new System.Drawing.Point(-9, 0);
             this.jumpCounterLabel.Name = "jumpCounterLabel";
