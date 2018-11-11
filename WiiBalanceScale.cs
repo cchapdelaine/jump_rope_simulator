@@ -224,10 +224,10 @@ namespace WiiBalanceScale
                 wentUp = false;
             }
 
-            f.topLeft.Text = string.Format("{0:N2}", topLeft);
-            f.topRight.Text = string.Format("{0:N2}", topRight);
-            f.bottomLeft.Text = string.Format("{0:N2}", bottomLeft);
-            f.bottomRight.Text = string.Format("{0:N2}", bottomRight);
+            f.topLeft.Text = topLeft.ToString(); // string.Format("{0:N2}", topLeft);
+            f.topRight.Text = topRight.ToString(); // string.Format("{0:N2}", topRight);
+            f.bottomLeft.Text = bottomLeft.ToString(); // string.Format("{0:N2}", bottomLeft);
+            f.bottomRight.Text = bottomRight.ToString(); // string.Format("{0:N2}", bottomRight);
         }
     }
 }
