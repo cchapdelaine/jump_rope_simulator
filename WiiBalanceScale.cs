@@ -117,55 +117,10 @@ namespace WiiBalanceScale
             kg = HistorySum / HistoryBest;
 
             float accuracy = 1.0f / HistoryBest;
-            kg = (float)System.Math.Floor(kg / accuracy + 0.5f) * accuracy;
+            kg = bb.WiimoteState.BalanceBoardState.WeightKg;
 
             threshold = kg;
             f.threshold.Text = threshold.ToString();
-        }
-
-        static float getBalancedWeight(string section)
-        {
-            float kg = 0;
-
-            if (section == "topLeft")
-            {
-                kg = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
-            } else if (section == "topRight"){
-                kg = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
-            } else if (section == "bottomLeft")
-            {
-                kg = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
-            } else if (section == "bottomRight")
-            {
-                kg = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
-            }
-
-            float HistorySum = 0.0f;
-            float MaxHist = kg;
-            float MinHist = kg;
-            float MaxDiff = 0.0f;
-
-            HistoryCursor++;
-            History[HistoryCursor % History.Length] = kg;
-            for (HistoryBest = 0; HistoryBest < History.Length; HistoryBest++)
-            {
-                float HistoryEntry = History[(HistoryCursor + History.Length - HistoryBest) % History.Length];
-                if (System.Math.Abs(MaxHist - HistoryEntry) > 1.0f) break;
-                if (System.Math.Abs(MinHist - HistoryEntry) > 1.0f) break;
-                if (HistoryEntry > MaxHist) MaxHist = HistoryEntry;
-                if (HistoryEntry > MinHist) MinHist = HistoryEntry;
-                float Diff = System.Math.Max(System.Math.Abs(HistoryEntry - kg), System.Math.Abs((HistorySum + HistoryEntry) / (HistoryBest + 1) - kg));
-                if (Diff > MaxDiff) MaxDiff = Diff;
-                if (Diff > 1.0f) break;
-                HistorySum += HistoryEntry;
-            }
-
-            kg = HistorySum / HistoryBest;
-
-            float accuracy = 1.0f / HistoryBest;
-            kg = (float)System.Math.Floor(kg / accuracy + 0.5f) * accuracy;
-
-            return kg;
         }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
@@ -196,10 +151,10 @@ namespace WiiBalanceScale
             f.connectingLabel.Visible = false; // Don't display connecting label.
 
             //TopLeft = wiiDevice.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft,
-            float topLeft = getBalancedWeight("topLeft");
-            float topRight = getBalancedWeight("topRight");
-            float bottomLeft = getBalancedWeight("bottomLeft");
-            float bottomRight = getBalancedWeight("bottomRight");
+            float topLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
+            float topRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
+            float bottomLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
+            float bottomRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
 
             // Keep values above 0.
             if (topLeft < 0) topLeft = 0;
