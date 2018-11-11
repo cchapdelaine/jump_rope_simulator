@@ -118,6 +118,14 @@ namespace WiiBalanceScale
                 return;
             }
 
+            if (wentUp)
+            {
+                f.jumpMan.Location.Offset(1, 1);
+            } else
+            {
+                f.jumpMan.Location.Offset(-1, -1);
+            }
+
             getWeight();
 
             f.connectingLabel.Visible = false; // Don't display connecting label.
