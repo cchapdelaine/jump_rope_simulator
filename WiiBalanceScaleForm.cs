@@ -43,6 +43,8 @@ namespace WiiBalanceScale
         internal Label jumpMan;
         internal Label connectingLabel;  // Connecting to wiiboard.
 
+        internal String ArialFont = "Arial";
+
         /// <summary>
         /// Required designer variable.
         /// </summary>
@@ -77,7 +79,7 @@ namespace WiiBalanceScale
             // 
             // jumpCounter
             // 
-            this.jumpCounter.Font = new System.Drawing.Font("Lucida Console", 25F);
+            this.jumpCounter.Font = new System.Drawing.Font(ArialFont, 25F);
             this.jumpCounter.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.jumpCounter.Location = new System.Drawing.Point(12, 69);
             this.jumpCounter.Name = "jumpCounter";
@@ -89,7 +91,7 @@ namespace WiiBalanceScale
             // 
             this.connectingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.connectingLabel.Font = new System.Drawing.Font("Lucida Console", 50F);
+            this.connectingLabel.Font = new System.Drawing.Font(ArialFont, 50F);
             this.connectingLabel.Location = new System.Drawing.Point(-2, 0);
             this.connectingLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingLabel.Name = "connectingLabel";
@@ -100,7 +102,7 @@ namespace WiiBalanceScale
             // 
             // jumpCounterLabel
             // 
-            this.jumpCounterLabel.Font = new System.Drawing.Font("Lucida Console", 25F);
+            this.jumpCounterLabel.Font = new System.Drawing.Font(ArialFont, 25F);
             this.jumpCounterLabel.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.jumpCounterLabel.Location = new System.Drawing.Point(-9, 0);
             this.jumpCounterLabel.Name = "jumpCounterLabel";
@@ -113,7 +115,7 @@ namespace WiiBalanceScale
             this.jumpMan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jumpMan.Font = new System.Drawing.Font("Wingdings", 150F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(127)));
-            this.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(82)))), ((int)(((byte)(255)))));
+            this.jumpMan.ForeColor = System.Drawing.Color.FromArgb(2, 82, 255);
             this.jumpMan.Size = new System.Drawing.Size(386, 211);
             this.jumpMan.Location = new System.Drawing.Point(300, 250);
             this.jumpMan.Name = "jumpMan";
