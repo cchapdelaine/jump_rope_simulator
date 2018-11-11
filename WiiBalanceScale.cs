@@ -53,7 +53,6 @@ namespace WiiBalanceScale
             Application.SetCompatibleTextRenderingDefault(false);
 
             f = new WiiBalanceScaleForm();
-            f.topLeft.Text = "";
 
             ConnectBalanceBoard(false);
             if (f == null) return; //connecting required application restart, end this process here
@@ -87,7 +86,6 @@ namespace WiiBalanceScale
             }
             if (cm != null) { cm.Cancel(); cm = null; }
 
-            f.topLeft.Text = "...";
             f.Refresh();
         }
 
@@ -95,7 +93,6 @@ namespace WiiBalanceScale
         {
             float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
             threshold = kg + 100;
-            f.threshold.Text = threshold.ToString();
         }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
@@ -153,11 +150,6 @@ namespace WiiBalanceScale
                 f.jumpCounter.Text = jumpCounter.ToString();
                 wentUp = false;
             }
-
-            f.topLeft.Text = topLeft.ToString(); // string.Format("{0:N2}", topLeft);
-            f.topRight.Text = topRight.ToString(); // string.Format("{0:N2}", topRight);
-            f.bottomLeft.Text = bottomLeft.ToString(); // string.Format("{0:N2}", bottomLeft);
-            f.bottomRight.Text = bottomRight.ToString(); // string.Format("{0:N2}", bottomRight);
         }
     }
 }
