@@ -94,7 +94,7 @@ namespace WiiBalanceScale
         static void getWeight()
         {
             float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
-            threshold = kg;
+            threshold = kg + 100;
             f.threshold.Text = threshold.ToString();
         }
 
