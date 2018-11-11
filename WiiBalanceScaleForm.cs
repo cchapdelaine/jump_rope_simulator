@@ -89,13 +89,13 @@ namespace WiiBalanceScale
             // 
             this.connectingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.connectingLabel.Font = new System.Drawing.Font("Lucida Console", 80F);
+            this.connectingLabel.Font = new System.Drawing.Font("Lucida Console", 50F);
             this.connectingLabel.Location = new System.Drawing.Point(-2, 0);
             this.connectingLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingLabel.Name = "connectingLabel";
             this.connectingLabel.Size = new System.Drawing.Size(1253, 510);
             this.connectingLabel.TabIndex = 0;
-            this.connectingLabel.Text = "Connecting to Wiiboard...";
+            this.connectingLabel.Text = "Connecting to Wiiboard...\n(press sync button)";
             this.connectingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // jumpCounterLabel
