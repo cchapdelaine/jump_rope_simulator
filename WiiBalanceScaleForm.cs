@@ -113,12 +113,6 @@ namespace WiiBalanceScale
         }
         #endregion
 
-        private void myDrawingPanel_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            g.DrawRectangle(Pens.Aqua, new Rectangle(10,10,10,10));
-        }
-
         private void WiiBalanceScaleForm_Load(object sender, EventArgs e)
         {
 
