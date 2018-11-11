@@ -118,13 +118,17 @@ namespace WiiBalanceScale
                 return;
             }
 
-            if (wentUp)
+            System.Drawing.Point topThreshold = new System.Drawing.Point(350, 350);
+            System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 150);
+            System.Drawing.Point loc = f.jumpMan.Location;
+
+            if (wentUp && loc.Y < topThreshold.Y)
             {
-                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y + 1);
+                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y - 5);
             }
-            else 
+            else if (!wentUp && loc.Y > bottomThreshold.Y) 
             {
-                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y - 1);
+                f.jumpMan.Location = new System.Drawing.Point(f.jumpMan.Location.X, f.jumpMan.Location.Y + 5);
             }
 
             getWeight();
