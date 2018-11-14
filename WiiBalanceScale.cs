@@ -40,6 +40,7 @@ namespace WiiBalanceScale
     {
         static WiiBalanceScaleForm f = null;
         static Wiimote bb = null;
+        static Wiimote wm = new Wiimote();
         static ConnectionManager cm = null;
         static Timer BoardTimer = null;
         static float[] History = new float[100];
@@ -76,9 +77,11 @@ namespace WiiBalanceScale
 
         static void ConnectBalanceBoard(bool WasJustConnected)
         {
-            bool Connected = true; try { bb = new Wiimote(); bb.Connect(); bb.SetLEDs(1); bb.GetStatus(); } catch { Connected = false; }
+            // bool bbConnected = true; try { bb = new Wiimote(); bb.Connect(); bb.SetLEDs(1); bb.GetStatus(); } catch { bbConnected = false; }
+            f.connectingLabel.Text = "PRESS SYNC ON WII MOTE";
+            bool wmConnected = true; try { wm.Connect(); wm.SetLEDs(false, true, true, false); wm.SetReportType(InputReport.IRAccel, true); } catch { wmConnected = false; }
 
-            if (!Connected || bb.WiimoteState.ExtensionType != ExtensionType.BalanceBoard)
+            if (!wmConnected ) //|| !bbConnected || bb.WiimoteState.ExtensionType != ExtensionType.BalanceBoard )
             {
                 if (ConnectionManager.ElevateProcessNeedRestart()) { Shutdown(); return; }
                 if (cm == null) cm = new ConnectionManager();
@@ -92,8 +95,8 @@ namespace WiiBalanceScale
 
         static void getWeight()
         {
-            float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
-            threshold = (kg * 2.0F) + 5;  // Proportional to user's weight.
+            // float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
+            // threshold = (kg * 2.0F) + 5;  // Proportional to user's weight.
         }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
@@ -119,6 +122,8 @@ namespace WiiBalanceScale
                 return;
             }
 
+            f.connectingLabel.Visible = false;
+
             System.Drawing.Point topThreshold = new System.Drawing.Point(350, 200);
             System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 250);
             System.Drawing.Point loc = f.jumpMan.Location;
@@ -134,11 +139,21 @@ namespace WiiBalanceScale
                 f.jumpMan.Location = new System.Drawing.Point(center, f.jumpMan.Location.Y + 10);
             }
 
-            getWeight();
+            // getWeight();
 
-            f.connectingLabel.Visible = false; // Don't display connecting label.
+            bool buttonA = wm.WiimoteState.ButtonState.A;
+
+            if (buttonA)
+            {
+                f.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(141)))), ((int)(((byte)(48)))));
+            }
+            else
+            {
+                f.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(82)))), ((int)(((byte)(255)))));
+            }
 
             //TopLeft = wiiDevice.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft,
+            /*
             float topLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
             float topRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
             float bottomLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
@@ -166,6 +181,7 @@ namespace WiiBalanceScale
                 f.jumpCounter.Text = jumpCounter.ToString();
                 wentUp = false;
             }
+        */
         }
     }
 }

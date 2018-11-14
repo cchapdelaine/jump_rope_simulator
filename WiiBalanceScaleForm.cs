@@ -91,7 +91,7 @@ namespace WiiBalanceScale
             this.connectingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.connectingLabel.Font = new System.Drawing.Font("Arial", 50F);
-            this.connectingLabel.Location = new System.Drawing.Point(-2, 0);
+            this.connectingLabel.Location = new System.Drawing.Point(-11, -5);
             this.connectingLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingLabel.Name = "connectingLabel";
             this.connectingLabel.Size = new System.Drawing.Size(1253, 510);
@@ -103,7 +103,7 @@ namespace WiiBalanceScale
             // 
             this.jumpCounterLabel.Font = new System.Drawing.Font("Arial", 25F);
             this.jumpCounterLabel.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.jumpCounterLabel.Location = new System.Drawing.Point(-9, 0);
+            this.jumpCounterLabel.Location = new System.Drawing.Point(-3, 0);
             this.jumpCounterLabel.Name = "jumpCounterLabel";
             this.jumpCounterLabel.Size = new System.Drawing.Size(422, 125);
             this.jumpCounterLabel.TabIndex = 1;
@@ -114,10 +114,10 @@ namespace WiiBalanceScale
             this.jumpMan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jumpMan.Font = new System.Drawing.Font("Wingdings", 150F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(127)));
-            this.jumpMan.ForeColor = System.Drawing.Color.FromArgb(2, 82, 255);
-            this.jumpMan.Size = new System.Drawing.Size(386, 211);
+            this.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(82)))), ((int)(((byte)(255)))));
             this.jumpMan.Location = new System.Drawing.Point(300, 250);
             this.jumpMan.Name = "jumpMan";
+            this.jumpMan.Size = new System.Drawing.Size(386, 211);
             this.jumpMan.TabIndex = 8;
             this.jumpMan.Text = "n";
             this.jumpMan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
