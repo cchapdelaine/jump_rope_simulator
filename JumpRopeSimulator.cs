@@ -39,6 +39,7 @@ namespace JumpRope
         static float threshold;
         static bool wentUp;
 
+
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
@@ -46,8 +47,8 @@ namespace JumpRope
 
             form = new JumpRopeForm();
 
-            ConnectBalanceBoard(false);
-            if (form== null) return; //connecting required application restart, end this process here
+            ConnectBalanceBoard();
+            if (form== null) return; //connecting required application restart, end this process here.
 
             BoardTimer = new System.Windows.Forms.Timer();
             BoardTimer.Interval = 50;
@@ -57,6 +58,7 @@ namespace JumpRope
             Application.Run(form);
             Shutdown();
         }
+
 
         static void Shutdown()
         {
@@ -76,8 +78,11 @@ namespace JumpRope
             }
         }
 
-        static void ConnectBalanceBoard(bool WasJustConnected)
+
+        static void ConnectBalanceBoard()
         {
+            // Connect the Wii Balance Board to the computer.
+
             bool Connected = true;
 
             try {
@@ -91,6 +96,7 @@ namespace JumpRope
 
             if (!Connected || balanceBoard.WiimoteState.ExtensionType != ExtensionType.BalanceBoard)
             {
+                // Close application if a device is not connected or the connected device is not a balance board.
                 if (ConnectionManager.ElevateProcessNeedRestart()) {
                     Shutdown();
                     return;
@@ -109,14 +115,18 @@ namespace JumpRope
             form.Refresh();
         }
 
+
         static void getWeight()
         {
+            // Get the weight of the user.
             float kg = balanceBoard.WiimoteState.BalanceBoardState.WeightKg;
             threshold = (kg * 2.0F) + 5;  // Proportional to user's weight.
         }
 
+
         static void BoardTimer_Tick(object sender, System.EventArgs e)
         {
+            // Get the current value of the jump counter from the UI.
             int jumpCounter = Int32.Parse(form.jumpCounter.Text);
 
             if (connectionManager != null)
@@ -134,7 +144,7 @@ namespace JumpRope
                     Shutdown();
                     return;
                 }
-                ConnectBalanceBoard(true);
+                ConnectBalanceBoard();
                 return;
             }
 
@@ -142,8 +152,9 @@ namespace JumpRope
             System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 250);
             System.Drawing.Point loc = form.jumpMan.Location;
 
-            int center = (form.Width / 2) - (form.jumpMan.Size.Width / 2);
+            int center = (form.Width / 2) - (form.jumpMan.Size.Width / 2);  // center the box on screen.
 
+            // Animate the box when the user jumps up and down.
             if (wentUp && loc.Y >= topThreshold.Y)
             {
                 form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y - 5);
@@ -155,31 +166,36 @@ namespace JumpRope
 
             getWeight();
 
-            form.connectingLabel.Visible = false; // Don't display connecting label.
+            // Don't display "connecting to wii board" text if the wii board is connected.
+            form.connectingLabel.Visible = false;
 
-            //TopLeft = wiiDevice.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft,
             float topLeft = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
             float topRight = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
             float bottomLeft = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
             float bottomRight = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
 
+            /*
             // Keep values above 0.
             if (topLeft < 0) topLeft = 0;
             if (topRight < 0) topRight = 0;
             if (bottomLeft < 0) bottomLeft = 0;
             if (bottomRight < 0) bottomRight = 0;
+            */
 
-
-            float topWeight = topLeft + topRight;
-            float bottomWeight = bottomLeft + bottomRight;
+            float topWeight = topLeft + topRight; // Weight of combined top quadrants.
+            float bottomWeight = bottomLeft + bottomRight;  // Weight of combined bottom quadrants.
             float difference = topWeight - bottomWeight;
 
+
+            /* If the weight on the top quadrants is twice the weight of the back quadrants (i.e., twice
+               the user's weight), they have jumped. */
             if (difference >= threshold)
             {
+                // The user jumped. 
                 wentUp = true;
             }
 
-            if (difference <= threshold && wentUp == true)
+            if (difference <= threshold && wentUp)
             {
                 jumpCounter++;
                 form.jumpCounter.Text = jumpCounter.ToString();
