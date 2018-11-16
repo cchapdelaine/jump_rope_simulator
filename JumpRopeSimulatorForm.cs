@@ -17,6 +17,8 @@ Certification of Authenticity:
     - staff; and/or Communicate a copy of this assignment to a plagiarism checking
     - service (which may then retain a copy of this assignment on its database for
     - the purpose of future plagiarism checking)
+
+ Code modifed from WiiBalanceScale by Bernhard Schelling
 */
 
 /*********************************************************************************
@@ -59,14 +61,12 @@ namespace JumpRope
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
         }
 
-        internal Label jumpCounter;
+        internal Label jumpCounter;     
         internal Label jumpCounterLabel;
         internal Label jumpMan;
-        internal Label connectingLabel;  // Connecting to wiiboard.
+        internal Label connectingLabel;  
         internal Label ground;
         
-        
-
 
         /// <summary>
         /// Required designer variable.
@@ -156,7 +156,7 @@ namespace JumpRope
             this.ground.Name = "ground";
             this.ground.Size = new System.Drawing.Size(1209, 322);
             this.ground.TabIndex = 9;
-            this.ground.Text = "_____________________________";
+            this.ground.Text = "_____________________________";   // just a line to represent the ground
             this.ground.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // JumpRopeForm
