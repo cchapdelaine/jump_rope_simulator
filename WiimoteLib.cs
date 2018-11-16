@@ -260,8 +260,8 @@ namespace WiimoteLib
 			HIDImports.SetupDiDestroyDeviceInfoList(hDevInfo);
 
 			// if we didn't find a Wiimote, throw an exception
-			if(!found)
-				throw new WiimoteNotFoundException("No Wiimotes found in HID device list.");
+			//if(!found)
+				//throw new WiimoteNotFoundException("No Wiimotes found in HID device list.");
 		}
 
 		private bool WiimoteFound(string devicePath)

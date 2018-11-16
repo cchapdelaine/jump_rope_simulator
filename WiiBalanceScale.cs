@@ -38,9 +38,13 @@ namespace WiiBalanceScale
 {
     internal class WiiBalanceScale
     {
+        static WiimoteCollection controllers;
+        static bool bbConnected = false;
+        static bool wmConnected = false;
+
         static WiiBalanceScaleForm f = null;
-        static Wiimote bb = null;
-        static Wiimote wm = new Wiimote();
+        static Wiimote bb = new Wiimote();
+        static Wiimote remote = new Wiimote();
         static ConnectionManager cm = null;
         static Timer BoardTimer = null;
         static float[] History = new float[100];
@@ -77,6 +81,53 @@ namespace WiiBalanceScale
 
         static void ConnectBalanceBoard(bool WasJustConnected)
         {
+            controllers = new WiimoteCollection();
+
+            f.connectingLabel.Text = "PRESS SYNC";
+
+            controllers.FindAllWiimotes();
+
+            foreach(Wiimote wm in controllers)
+            {
+                f.connectingLabel.Text = "trying to connect...";
+                try
+                {
+                    wm.Connect();
+                    if (wm.WiimoteState.ExtensionType != ExtensionType.BalanceBoard)
+                    {
+                        remote = wm;
+                        remote.SetReportType(InputReport.IRExtensionAccel, IRSensitivity.Maximum, true);
+                        remote.SetLEDs(false, true, true, false);
+                        wmConnected = true;
+                    }
+                    else
+                    {
+                        bb = wm;
+                        bb.SetLEDs(1);
+                        bb.GetStatus();
+                        bbConnected = true;
+                    }
+                }
+                catch
+                {
+                    wmConnected = false;
+                    bbConnected = false;
+                }
+                    
+            }
+
+            if(!wmConnected || !bbConnected)
+            {
+                if (ConnectionManager.ElevateProcessNeedRestart()) { Shutdown(); return; }
+                if (cm == null) cm = new ConnectionManager();
+                cm.ConnectNextWiiMote();
+                return;
+            }
+            if (cm != null) { cm.Cancel(); cm = null; }
+
+            f.Refresh();
+
+            /*
             // bool bbConnected = true; try { bb = new Wiimote(); bb.Connect(); bb.SetLEDs(1); bb.GetStatus(); } catch { bbConnected = false; }
             f.connectingLabel.Text = "PRESS SYNC ON WII MOTE";
             bool wmConnected = true; try { wm.Connect(); wm.SetLEDs(false, true, true, false); wm.SetReportType(InputReport.IRAccel, true); } catch { wmConnected = false; }
@@ -91,12 +142,13 @@ namespace WiiBalanceScale
             if (cm != null) { cm.Cancel(); cm = null; }
 
             f.Refresh();
+            */
         }
 
         static void getWeight()
         {
-            // float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
-            // threshold = (kg * 2.0F) + 5;  // Proportional to user's weight.
+            float kg = bb.WiimoteState.BalanceBoardState.WeightKg;
+            threshold = (kg * 2.0F) + 5;  // Proportional to user's weight.
         }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
@@ -139,9 +191,9 @@ namespace WiiBalanceScale
                 f.jumpMan.Location = new System.Drawing.Point(center, f.jumpMan.Location.Y + 10);
             }
 
-            // getWeight();
+            getWeight();
 
-            bool buttonA = wm.WiimoteState.ButtonState.A;
+            bool buttonA = remote.WiimoteState.ButtonState.A;
 
             if (buttonA)
             {
@@ -153,7 +205,7 @@ namespace WiiBalanceScale
             }
 
             //TopLeft = wiiDevice.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft,
-            /*
+            
             float topLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
             float topRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
             float bottomLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
@@ -181,7 +233,6 @@ namespace WiiBalanceScale
                 f.jumpCounter.Text = jumpCounter.ToString();
                 wentUp = false;
             }
-        */
         }
     }
 }
