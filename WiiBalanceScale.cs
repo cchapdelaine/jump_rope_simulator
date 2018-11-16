@@ -94,7 +94,16 @@ namespace WiiBalanceScale
         {
             // bool bbConnected = true; try { bb = new Wiimote(); bb.Connect(); bb.SetLEDs(1); bb.GetStatus(); } catch { bbConnected = false; }
             f.connectingLabel.Text = "PRESS SYNC ON WII MOTE";
-            wmConnected = true; try { wm.Connect(); wm.SetLEDs(false, true, true, false); wm.SetReportType(InputReport.IRAccel, true); } catch { wmConnected = false; }
+            wmConnected = true;
+            try {
+                wm.Connect();
+                wm.SetLEDs(false, true, true, false);
+                wm.SetReportType(InputReport.IRAccel, true);
+            }
+            catch
+            {
+                wmConnected = false;
+            }
 
             if (!wmConnected) 
             {
@@ -111,6 +120,8 @@ namespace WiiBalanceScale
         static void ConnectBalanceBoard()
         {
             f.connectingLabel.Text = "PRESS SYNC on balnce board";
+
+            bb.Connect();
             
             if (bb.WiimoteState.ExtensionType == ExtensionType.BalanceBoard)
             {
