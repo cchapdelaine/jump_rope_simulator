@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WiiBalanceScale", "WiiBalanceScale.csproj", "{05D6A76D-F8F5-4E20-AB51-2CA534EA3B50}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JumpRopeSimulator", "JumpRopeSimulator.csproj", "{05D6A76D-F8F5-4E20-AB51-2CA534EA3B50}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -18,5 +18,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23F72411-B30A-4C6F-B208-AD8494DBD020}
 	EndGlobalSection
 EndGlobal

@@ -28,11 +28,11 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace WiiBalanceScale
+namespace JumpRope
 {
-    class WiiBalanceScaleForm : Form
+    class JumpRopeForm : Form
     {
-        public WiiBalanceScaleForm()
+        public JumpRopeForm()
         {
             InitializeComponent();
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
@@ -122,7 +122,7 @@ namespace WiiBalanceScale
             this.jumpMan.Text = "n";
             this.jumpMan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // WiiBalanceScaleForm
+            // JumpRopeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -134,15 +134,15 @@ namespace WiiBalanceScale
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
-            this.Name = "WiiBalanceScaleForm";
-            this.Text = "Wii Balance Scale";
-            this.Load += new System.EventHandler(this.WiiBalanceScaleForm_Load);
+            this.Name = "JumpRopeForm";
+            this.Text = "Jump rope simulator";
+            this.Load += new System.EventHandler(this.JumpRopeForm_Load);
             this.ResumeLayout(false);
 
         }
         #endregion
 
-        private void WiiBalanceScaleForm_Load(object sender, EventArgs e)
+        private void JumpRopeForm_Load(object sender, EventArgs e)
         {
 
         }

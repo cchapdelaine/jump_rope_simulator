@@ -10,7 +10,7 @@
     <AssemblyName>WiiBalanceScale</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ApplicationIcon>WiiBalanceScale.ico</ApplicationIcon>
+    <ApplicationIcon>BalanceBoard.ico</ApplicationIcon>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -53,12 +53,12 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="WiiBalanceScaleForm.cs">
+    <Compile Include="JumpRopeSimulatorForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WiiBalanceScale.cs" />
+    <Compile Include="JumpRopeSimulator.cs" />
     <Compile Include="WiimoteLib.cs" />
-    <Content Include="WiiBalanceScale.ico" />
+    <Content Include="BalanceBoard.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -73,8 +73,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="WiiBalanceScaleForm.resx">
-      <DependentUpon>WiiBalanceScaleForm.cs</DependentUpon>
+    <EmbeddedResource Include="JumpRopeSimulatorForm.resx">
+      <DependentUpon>JumpRopeSimulatorForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
