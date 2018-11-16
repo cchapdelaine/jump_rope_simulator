@@ -38,13 +38,20 @@ namespace WiiBalanceScale
 {
     internal class WiiBalanceScale
     {
+        static bool bbConnected = false;
+        static bool wmConnected = false;
+
         static WiiBalanceScaleForm f = null;
-        static Wiimote bb = null;
-        static ConnectionManager cm = null;
+        static Wiimote bb = new Wiimote();
+        static Wiimote wm = new Wiimote();
+
+        static ConnectionManager BalanceCM = null;
+        static ConnectionManager WiimoteCM = null;
+
         static Timer BoardTimer = null;
+        static Timer WiiMoteTimer = null;
+
         static float[] History = new float[100];
-        static int HistoryBest = 1;
-        static int HistoryCursor = -1;
         static float threshold;
         static bool wentUp;
 
@@ -55,7 +62,9 @@ namespace WiiBalanceScale
 
             f = new WiiBalanceScaleForm();
 
-            ConnectBalanceBoard(false);
+            ConnectBalanceBoard();
+            ConnectWiimote();
+
             if (f == null) return; //connecting required application restart, end this process here
 
             BoardTimer = new System.Windows.Forms.Timer();
@@ -63,29 +72,62 @@ namespace WiiBalanceScale
             BoardTimer.Tick += new System.EventHandler(BoardTimer_Tick);
             BoardTimer.Start();
 
+            WiiMoteTimer = new System.Windows.Forms.Timer();
+            WiiMoteTimer.Interval = 50;
+            WiiMoteTimer.Tick += new System.EventHandler(WiiMoteTimer_Tick);
+            WiiMoteTimer.Start();
+
             Application.Run(f);
             Shutdown();
         }
 
         static void Shutdown()
         {
+            if (WiiMoteTimer != null) { WiiMoteTimer.Stop(); WiiMoteTimer = null; }
             if (BoardTimer != null) { BoardTimer.Stop(); BoardTimer = null; }
-            if (cm != null) { cm.Cancel(); cm = null; }
+            if (BalanceCM != null) { BalanceCM.Cancel(); BalanceCM = null; }
+            if (WiimoteCM != null) { WiimoteCM.Cancel(); WiimoteCM = null; }
             if (f != null) { if (f.Visible) f.Close(); f = null; }
         }
 
-        static void ConnectBalanceBoard(bool WasJustConnected)
+        static void ConnectWiimote()
         {
-            bool Connected = true; try { bb = new Wiimote(); bb.Connect(); bb.SetLEDs(1); bb.GetStatus(); } catch { Connected = false; }
+            // bool bbConnected = true; try { bb = new Wiimote(); bb.Connect(); bb.SetLEDs(1); bb.GetStatus(); } catch { bbConnected = false; }
+            f.connectingLabel.Text = "PRESS SYNC ON WII MOTE";
+            wmConnected = true; try { wm.Connect(); wm.SetLEDs(false, true, true, false); wm.SetReportType(InputReport.IRAccel, true); } catch { wmConnected = false; }
 
-            if (!Connected || bb.WiimoteState.ExtensionType != ExtensionType.BalanceBoard)
+            if (!wmConnected) 
             {
                 if (ConnectionManager.ElevateProcessNeedRestart()) { Shutdown(); return; }
-                if (cm == null) cm = new ConnectionManager();
-                cm.ConnectNextWiiMote();
+                if (WiimoteCM == null) WiimoteCM = new ConnectionManager();
+                WiimoteCM.ConnectNextWiiMote();
                 return;
             }
-            if (cm != null) { cm.Cancel(); cm = null; }
+            if (WiimoteCM != null) { WiimoteCM.Cancel(); WiimoteCM = null; }
+
+            f.Refresh();
+        }
+
+        static void ConnectBalanceBoard()
+        {
+            f.connectingLabel.Text = "PRESS SYNC on balnce board";
+            
+            if (bb.WiimoteState.ExtensionType == ExtensionType.BalanceBoard)
+            {
+                bb = wm;
+                bb.SetLEDs(1);
+                bb.GetStatus();
+                bbConnected = true;
+            }
+
+            if(!bbConnected)
+            {
+                if (ConnectionManager.ElevateProcessNeedRestart()) { Shutdown(); return; }
+                if (BalanceCM == null) BalanceCM = new ConnectionManager();
+                BalanceCM.ConnectNextWiiMote();
+                return;
+            }
+            if (BalanceCM != null) { BalanceCM.Cancel(); BalanceCM = null; }
 
             f.Refresh();
         }
@@ -100,24 +142,26 @@ namespace WiiBalanceScale
         {
             int jumpCounter = Int32.Parse(f.jumpCounter.Text);
 
-            if (cm != null)
+            if (BalanceCM != null)
             {
-                if (cm.IsRunning())
+                if (BalanceCM.IsRunning())
                 {
                     f.connectingLabel.Visible = true;
 
                     return;
                 }
-                if (cm.HadError())
+                if (BalanceCM.HadError())
                 {
                     BoardTimer.Stop();
                     System.Windows.Forms.MessageBox.Show(f, "No compatible bluetooth adapter found - Quitting", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     Shutdown();
                     return;
                 }
-                ConnectBalanceBoard(true);
+                ConnectBalanceBoard();
                 return;
             }
+
+            f.connectingLabel.Visible = false;
 
             System.Drawing.Point topThreshold = new System.Drawing.Point(350, 200);
             System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 250);
@@ -136,9 +180,8 @@ namespace WiiBalanceScale
 
             getWeight();
 
-            f.connectingLabel.Visible = false; // Don't display connecting label.
-
             //TopLeft = wiiDevice.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft,
+            
             float topLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
             float topRight = bb.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
             float bottomLeft = bb.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
@@ -165,6 +208,39 @@ namespace WiiBalanceScale
                 jumpCounter++;
                 f.jumpCounter.Text = jumpCounter.ToString();
                 wentUp = false;
+            }
+        }
+
+        static void WiiMoteTimer_Tick(object sender, System.EventArgs e)
+        {
+            if (WiimoteCM != null)
+            {
+                if (WiimoteCM.IsRunning())
+                {
+                    f.connectingLabel.Visible = true;
+
+                    return;
+                }
+                if (WiimoteCM.HadError())
+                {
+                    BoardTimer.Stop();
+                    System.Windows.Forms.MessageBox.Show(f, "No compatible bluetooth adapter found - Quitting", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Shutdown();
+                    return;
+                }
+                ConnectWiimote();
+                return;
+            }
+
+            bool buttonA = wm.WiimoteState.ButtonState.B;
+
+            if (buttonA)
+            {
+                f.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(235)))), ((int)(((byte)(141)))), ((int)(((byte)(48)))));
+            }
+            else
+            {
+                f.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(82)))), ((int)(((byte)(255)))));
             }
         }
     }
