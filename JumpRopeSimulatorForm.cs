@@ -42,6 +42,9 @@ namespace JumpRope
         internal Label jumpCounterLabel;
         internal Label jumpMan;
         internal Label connectingLabel;  // Connecting to wiiboard.
+        internal Label ground;
+        
+        
 
 
         /// <summary>
@@ -74,6 +77,7 @@ namespace JumpRope
             this.connectingLabel = new System.Windows.Forms.Label();
             this.jumpCounterLabel = new System.Windows.Forms.Label();
             this.jumpMan = new System.Windows.Forms.Label();
+            this.ground = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // jumpCounter
@@ -91,10 +95,10 @@ namespace JumpRope
             this.connectingLabel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.connectingLabel.Font = new System.Drawing.Font("Arial", 50F);
-            this.connectingLabel.Location = new System.Drawing.Point(-2, 0);
+            this.connectingLabel.Location = new System.Drawing.Point(-14, 0);
             this.connectingLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.connectingLabel.Name = "connectingLabel";
-            this.connectingLabel.Size = new System.Drawing.Size(1253, 510);
+            this.connectingLabel.Size = new System.Drawing.Size(1378, 507);
             this.connectingLabel.TabIndex = 0;
             this.connectingLabel.Text = "Connecting to Wiiboard...\n(press sync button)";
             this.connectingLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -114,26 +118,38 @@ namespace JumpRope
             this.jumpMan.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.jumpMan.Font = new System.Drawing.Font("Wingdings", 150F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(127)));
-            this.jumpMan.ForeColor = System.Drawing.Color.FromArgb(2, 82, 255);
-            this.jumpMan.Size = new System.Drawing.Size(386, 211);
-            this.jumpMan.Location = new System.Drawing.Point(300, 250);
+            this.jumpMan.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(2)))), ((int)(((byte)(82)))), ((int)(((byte)(255)))));
+            this.jumpMan.Location = new System.Drawing.Point(424, 257);
             this.jumpMan.Name = "jumpMan";
+            this.jumpMan.Size = new System.Drawing.Size(486, 123);
             this.jumpMan.TabIndex = 8;
             this.jumpMan.Text = "n";
             this.jumpMan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ground
+            // 
+            this.ground.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ground.Font = new System.Drawing.Font("Arial", 50F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(250)));
+            this.ground.Location = new System.Drawing.Point(60, 251);
+            this.ground.Name = "ground";
+            this.ground.Size = new System.Drawing.Size(1209, 322);
+            this.ground.TabIndex = 9;
+            this.ground.Text = "_____________________________";
+            this.ground.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // JumpRopeForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1247, 514);
+            this.ClientSize = new System.Drawing.Size(1377, 500);
             this.Controls.Add(this.connectingLabel);
             this.Controls.Add(this.jumpCounter);
             this.Controls.Add(this.jumpCounterLabel);
             this.Controls.Add(this.jumpMan);
+            this.Controls.Add(this.ground);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.MaximizeBox = false;
             this.Name = "JumpRopeForm";
             this.Text = "Jump rope simulator";
             this.Load += new System.EventHandler(this.JumpRopeForm_Load);
