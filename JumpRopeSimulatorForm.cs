@@ -62,11 +62,7 @@ namespace JumpRope
         internal Label jumpCounter;
         internal Label jumpCounterLabel;
         internal Label jumpMan;
-<<<<<<< HEAD
         internal Label information;  
-=======
-        internal Label connectingLabel;  // Connecting to wiiboard.
->>>>>>> parent of a58384c... more comments
         internal Label ground;
         
         

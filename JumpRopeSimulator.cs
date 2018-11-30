@@ -206,8 +206,8 @@ namespace JumpRope
             }
 
             // Sets the top and bottom thresholds for box to move between while jumping
-            System.Drawing.Point topThreshold = new System.Drawing.Point(350, 200);
-            System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 250);
+            System.Drawing.Point topThreshold = new System.Drawing.Point(350, 400);
+            System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 204);
             System.Drawing.Point loc = form.jumpMan.Location;
 
             int center = (form.Width / 2) - (form.jumpMan.Size.Width / 2);  // center the box on screen.
