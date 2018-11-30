@@ -64,9 +64,10 @@ namespace JumpRope
         static Wiimote balanceBoard = null;
         static ConnectionManager connectionManager = null;
         static Timer BoardTimer = null;
-        static float marginOfError = 5;
+        static float marginOfError = 2;
         static bool wentUp = false;
         static int jumpCounter = 0;
+        static int movement = 10;
 
         static void Main(string[] args)
         {
@@ -152,16 +153,6 @@ namespace JumpRope
             form.Refresh();
         }
 
-        static void showInstructions()
-        {
-            string instructions = "Welcome to Jump Rope Simulator\nTo jump lightly jump up when the square goes up";
-
-            form.information.Text = instructions;
-            System.Threading.Thread.Sleep(5000);
-            // might change later so they have to acknowledge             
-            form.information.Visible = false;
-        }
-
         static bool didJump()
         {
             float totalWeight = balanceBoard.WiimoteState.BalanceBoardState.WeightKg;
@@ -201,27 +192,29 @@ namespace JumpRope
                     return;
                 }
                 ConnectBalanceBoard();
-                showInstructions();
                 return;
             }
 
+            form.information.Visible = false;
+            bool jump = didJump();
+
             // Sets the top and bottom thresholds for box to move between while jumping
-            System.Drawing.Point topThreshold = new System.Drawing.Point(350, 400);
-            System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 204);
+            System.Drawing.Point topThreshold = new System.Drawing.Point(350, 204); // smaller #
+            System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 255); // higher #
             System.Drawing.Point loc = form.jumpMan.Location;
 
-            int center = (form.Width / 2) - (form.jumpMan.Size.Width / 2);  // center the box on screen.
+            int center = (form.Width / 2) - (form.jumpMan.Size.Width / 2);  // center the box on screen
 
             // Animate the box when the user jumps up and down.
-            if (loc.Y >= topThreshold.Y)
+            if (wentUp && loc.Y >= topThreshold.Y)
             {
                 // Animate going up
-                form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y - 5);
+                form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y - ( movement));
             }
-            else if (loc.Y <= bottomThreshold.Y)
+            else if (!wentUp && loc.Y <= bottomThreshold.Y)
             {
                 // Animate going down, it travels faster down than up
-                form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y + 10);
+                form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y + (5 +movement));
             }
 
             /*
@@ -231,8 +224,7 @@ namespace JumpRope
             float bottomLeft = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
             float bottomRight = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
             */
-
-            bool jump = didJump();
+            
             if (jump)
             {
                 jumpCounter++;
