@@ -64,8 +64,9 @@ namespace JumpRope
         static Wiimote balanceBoard = null;
         static ConnectionManager connectionManager = null;
         static Timer BoardTimer = null;
-        static float threshold;
+        static float marginOfError = 5;
         static bool wentUp;
+        static int jumpCounter = 0;
 
         static void Main(string[] args)
         {
@@ -76,7 +77,7 @@ namespace JumpRope
 
             //connect to the Balance Board
             ConnectBalanceBoard();
-            if (form== null) return; //connecting required application restart, end this process here.
+            if (form == null) return; //connecting required application restart, end this process here.
 
             //Continue running BoardTimer_tick()
             BoardTimer = new System.Windows.Forms.Timer();
@@ -91,17 +92,20 @@ namespace JumpRope
 
         static void Shutdown()
         {
-            if (BoardTimer != null) {
+            if (BoardTimer != null)
+            {
                 BoardTimer.Stop();
                 BoardTimer = null;
             }
 
-            if (connectionManager != null) {
+            if (connectionManager != null)
+            {
                 connectionManager.Cancel();
                 connectionManager = null;
             }
 
-            if (form!= null) {
+            if (form != null)
+            {
                 if (form.Visible) form.Close();
                 form = null;
             }
@@ -113,19 +117,23 @@ namespace JumpRope
 
             bool Connected = true;
 
-            try {
+            try
+            {
                 balanceBoard = new Wiimote();
                 balanceBoard.Connect();
                 balanceBoard.SetLEDs(1);
                 balanceBoard.GetStatus();
-            } catch {
+            }
+            catch
+            {
                 Connected = false;
             }
 
             if (!Connected || balanceBoard.WiimoteState.ExtensionType != ExtensionType.BalanceBoard)
             {
                 // Close application if a device is not connected or the connected device is not a balance board.
-                if (ConnectionManager.ElevateProcessNeedRestart()) {
+                if (ConnectionManager.ElevateProcessNeedRestart())
+                {
                     Shutdown();
                     return;
                 }
@@ -135,7 +143,8 @@ namespace JumpRope
                 connectionManager.ConnectNextWiiMote();
                 return;
             }
-            if (connectionManager != null) {
+            if (connectionManager != null)
+            {
                 connectionManager.Cancel();
                 connectionManager = null;
             }
@@ -143,28 +152,49 @@ namespace JumpRope
             form.Refresh();
         }
 
-
-        static void getWeight()
+        static void showInstructions()
         {
-            // Get the weight of the user.
-            float kg = balanceBoard.WiimoteState.BalanceBoardState.WeightKg;
-            threshold = (kg * 2.0F) + 5;  // Proportional to user's weight.
+            string instructions = "Welcome to Jump Rope Simulator\nTo jump lightly jump up when the square goes up";
+
+            form.information.Text = instructions;
+            System.Threading.Thread.Sleep(5000);
+            // might change later so they have to acknowledge             
+            form.information.Visible = false;
         }
 
+        static bool didJump()
+        {
+            bool wentUp = false;
+            float totalWeight = balanceBoard.WiimoteState.BalanceBoardState.WeightKg;
+
+            if (totalWeight >= -marginOfError && totalWeight <= marginOfError)
+            {
+                // The user jumped. 
+                wentUp = true;
+            }
+
+            if (totalWeight >= marginOfError && wentUp)
+            {
+                jumpCounter++;
+            }
+
+            return wentUp;
+        }
 
         static void BoardTimer_Tick(object sender, System.EventArgs e)
         {
             // Get the current value of the jump counter from the UI.
-            int jumpCounter = Int32.Parse(form.jumpCounter.Text);
+
 
             if (connectionManager != null)
             {
                 if (connectionManager.IsRunning())
                 {
-                    form.connectingLabel.Visible = true;
+                    form.information.Visible = true;
 
                     return;
                 }
+
                 if (connectionManager.HadError())
                 {
                     BoardTimer.Stop();
@@ -173,6 +203,7 @@ namespace JumpRope
                     return;
                 }
                 ConnectBalanceBoard();
+                showInstructions();
                 return;
             }
 
@@ -184,52 +215,31 @@ namespace JumpRope
             int center = (form.Width / 2) - (form.jumpMan.Size.Width / 2);  // center the box on screen.
 
             // Animate the box when the user jumps up and down.
-            if (wentUp && loc.Y >= topThreshold.Y)
+            if (loc.Y >= topThreshold.Y)
             {
                 // Animate going up
                 form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y - 5);
             }
-            else if (!wentUp && loc.Y <= bottomThreshold.Y)
+            else if (loc.Y <= bottomThreshold.Y)
             {
                 // Animate going down, it travels faster down than up
                 form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y + 10);
             }
 
-            getWeight();
-
-            // Don't display "connecting to wii board" text if the wii board is connected.
-            form.connectingLabel.Visible = false;
-
+            /*
             // Get the pressure from each of the four quadrants of the Balance Board
             float topLeft = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
             float topRight = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
             float bottomLeft = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
             float bottomRight = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
+            */
 
-            // Keep values above 0; helps to normalize the numbers
-            if (topLeft < 0) topLeft = 0;
-            if (topRight < 0) topRight = 0;
-            if (bottomLeft < 0) bottomLeft = 0;
-            if (bottomRight < 0) bottomRight = 0;
+            bool jump = didJump();
 
-            float topWeight = topLeft + topRight; // Weight of combined top quadrants.
-            float bottomWeight = bottomLeft + bottomRight;  // Weight of combined bottom quadrants.
-            float difference = topWeight - bottomWeight;
-
-
-            /* If the weight on the top quadrants is twice the weight of the back quadrants (i.e., twice
-               the user's weight), they have jumped. */
-            if (difference >= threshold)
-            {
-                // The user jumped. 
-                wentUp = true;
-            }
-
-            if (difference <= threshold && wentUp)
+            if (jump)
             {
                 jumpCounter++;
                 form.jumpCounter.Text = jumpCounter.ToString();
-                wentUp = false;
             }
         }
     }
