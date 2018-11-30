@@ -17,8 +17,6 @@ Certification of Authenticity:
     - staff; and/or Communicate a copy of this assignment to a plagiarism checking
     - service (which may then retain a copy of this assignment on its database for
     - the purpose of future plagiarism checking)
-
- Code modifed from WiiBalanceScale by Bernhard Schelling
 */
 
 /*********************************************************************************
@@ -61,12 +59,18 @@ namespace JumpRope
             this.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName);
         }
 
-        internal Label jumpCounter;     
+        internal Label jumpCounter;
         internal Label jumpCounterLabel;
         internal Label jumpMan;
+<<<<<<< HEAD
         internal Label information;  
+=======
+        internal Label connectingLabel;  // Connecting to wiiboard.
+>>>>>>> parent of a58384c... more comments
         internal Label ground;
         
+        
+
 
         /// <summary>
         /// Required designer variable.

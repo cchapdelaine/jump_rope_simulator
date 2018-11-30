@@ -17,8 +17,6 @@ Certification of Authenticity:
     - staff; and/or Communicate a copy of this assignment to a plagiarism checking
     - service (which may then retain a copy of this assignment on its database for
     - the purpose of future plagiarism checking)
-
- Code modifed from WiiBalanceScale by Bernhard Schelling
 */
 
 /*********************************************************************************
@@ -68,6 +66,7 @@ namespace JumpRope
         static bool wentUp;
         static int jumpCounter = 0;
 
+
         static void Main(string[] args)
         {
             Application.EnableVisualStyles();
@@ -75,11 +74,9 @@ namespace JumpRope
 
             form = new JumpRopeForm();
 
-            //connect to the Balance Board
             ConnectBalanceBoard();
             if (form == null) return; //connecting required application restart, end this process here.
 
-            //Continue running BoardTimer_tick()
             BoardTimer = new System.Windows.Forms.Timer();
             BoardTimer.Interval = 50;
             BoardTimer.Tick += new System.EventHandler(BoardTimer_Tick);
@@ -110,6 +107,7 @@ namespace JumpRope
                 form = null;
             }
         }
+
 
         static void ConnectBalanceBoard()
         {
@@ -207,7 +205,6 @@ namespace JumpRope
                 return;
             }
 
-            // Sets the top and bottom thresholds for box to move between while jumping
             System.Drawing.Point topThreshold = new System.Drawing.Point(350, 200);
             System.Drawing.Point bottomThreshold = new System.Drawing.Point(350, 250);
             System.Drawing.Point loc = form.jumpMan.Location;
@@ -217,24 +214,53 @@ namespace JumpRope
             // Animate the box when the user jumps up and down.
             if (loc.Y >= topThreshold.Y)
             {
-                // Animate going up
                 form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y - 5);
             }
             else if (loc.Y <= bottomThreshold.Y)
             {
-                // Animate going down, it travels faster down than up
                 form.jumpMan.Location = new System.Drawing.Point(center, form.jumpMan.Location.Y + 10);
             }
 
+<<<<<<< HEAD
             /*
             // Get the pressure from each of the four quadrants of the Balance Board
+=======
+            getWeight();
+
+            // Don't display "connecting to wii board" text if the wii board is connected.
+            form.connectingLabel.Visible = false;
+
+>>>>>>> parent of a58384c... more comments
             float topLeft = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.TopLeft;
             float topRight = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.TopRight;
             float bottomLeft = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.BottomLeft;
             float bottomRight = balanceBoard.WiimoteState.BalanceBoardState.SensorValuesKg.BottomRight;
             */
 
+<<<<<<< HEAD
             bool jump = didJump();
+=======
+            /*
+            // Keep values above 0.
+            if (topLeft < 0) topLeft = 0;
+            if (topRight < 0) topRight = 0;
+            if (bottomLeft < 0) bottomLeft = 0;
+            if (bottomRight < 0) bottomRight = 0;
+            */
+
+            float topWeight = topLeft + topRight; // Weight of combined top quadrants.
+            float bottomWeight = bottomLeft + bottomRight;  // Weight of combined bottom quadrants.
+            float difference = topWeight - bottomWeight;
+
+
+            /* If the weight on the top quadrants is twice the weight of the back quadrants (i.e., twice
+               the user's weight), they have jumped. */
+            if (difference >= threshold)
+            {
+                // The user jumped. 
+                wentUp = true;
+            }
+>>>>>>> parent of a58384c... more comments
 
             if (jump)
             {
